@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: pinot-minion-autoscaler
+  name: pinot-minion-autoscaler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pinot-minion-autoscaler
+  template:
+    metadata:
+      labels:
+        app: pinot-minion-autoscaler
+    spec:
+      containers:
+      - image: 008096229222.dkr.ecr.us-west-2.amazonaws.com/dev/wap-pinot-minion-autoscaler:0.1.0
+        name: pinot-minion-autoscaler
+        env:
+          - name: PINOT_AUTH_TOKEN
+            value: 'xxxx'
+          - name: MINION_MIN_REPLICA
+            value: '1'
+        imagePullPolicy: Always
+      serviceAccountName: pinot-minion-autoscaler
